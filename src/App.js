@@ -11,7 +11,7 @@ function App() {
   const [quotes, setQuotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("All");
-  const [favoriteQuotes, setFavoriteQuotes] = useState([]);
+  const [favoriteQuotes, setFavoriteQuotes] = useState(JSON.parse(window.localStorage.getItem("favoriteQuotes")) || []);
   const maxFaves = 3;
   const [messageText, setMessageText] = useState("");
   const [showMessage, setShowMessage] = useState(false);
@@ -58,6 +58,10 @@ function App() {
     fetchQuotes();
   }, []);
 
+  useEffect(() => {
+    window.localStorage.setItem("favoriteQuotes", JSON.stringify(favoriteQuotes));
+  }, [favoriteQuotes]);
+
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
@@ -66,6 +70,8 @@ function App() {
     const updatedFavorites = favoriteQuotes.filter((quote) => quote.id !== quoteId);
     setFavoriteQuotes(updatedFavorites);
   };
+
+
 
   return (
     <div className='App'>
